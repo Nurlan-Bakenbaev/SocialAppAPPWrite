@@ -14,16 +14,18 @@ import { Input } from "@/components/ui/input";
 import { SignUpValidation } from "@/lib/validation";
 import { z } from "zod";
 import Loader from "@/components/shared/Loader";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 import {
   useCreateUserAccountMutation,
   useSignInAccount,
 } from "@/lib/react-query/queriesAndMutations";
+import { useUserContext } from "@/context/AuthContext";
 
 const SignUpForm = () => {
   const { toast } = useToast();
-
+  const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
+  const navigate = useNavigate();
   const { mutateAsync: createUserAccount, isLoading: isCreatingUser } =
     useCreateUserAccountMutation();
   const { mutateAsync: signInAccount, isLoading: isSigningIn } =
@@ -56,6 +58,15 @@ const SignUpForm = () => {
         description: "Double check the data you provide",
       });
     }
+    const isLooggedIn = await checkAuthUser();
+    if (isLooggedIn) {
+      form.reset();
+      navigate("/home");
+    }
+    return toast({
+      title: "Sign up failed. Please try again",
+      description: "Double check the data you provide",
+    });
   }
   return (
     <Form {...form}>
