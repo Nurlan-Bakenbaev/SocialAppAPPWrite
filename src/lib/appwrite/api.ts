@@ -1,6 +1,8 @@
 import { INewUser } from "@/types";
 import { ID, Query } from "appwrite";
 import { account, appwriteConfig, avatars, databases } from "./config";
+
+//CREATE ACCOUNT
 export async function createUserAccount(user: INewUser) {
   try {
     const newAccount = await account.create(
@@ -11,26 +13,28 @@ export async function createUserAccount(user: INewUser) {
     );
     if (!newAccount) throw Error;
     const avatarUrl = avatars.getInitials(user.name);
-    const newuser = await saveUserToDB({
+
+    const newUser = await saveUserToDB({
       accountId: newAccount.$id,
-      email: newAccount.name,
-      name: newAccount.email,
-      userName: user.username,
+      name: newAccount.name,
+      email: newAccount.email,
+      username: user.username,
       imageUrl: avatarUrl,
     });
-
-    return newAccount;
+    return newUser;
   } catch (error) {
     console.log(error);
     return error;
   }
 }
+
+//SAVE TO APPWRITE DB
 export async function saveUserToDB(user: {
   accountId: string;
   email: string;
   name: string;
   imageUrl: URL;
-  userName?: string;
+  username?: string;
 }) {
   try {
     const newUser = await databases.createDocument(
@@ -39,11 +43,13 @@ export async function saveUserToDB(user: {
       ID.unique(),
       user
     );
+
     return newUser;
   } catch (error) {
     console.log(error);
   }
 }
+// SIGNING IN APPWRITE
 export async function signInAccount(user: { email: string; password: string }) {
   try {
     const session = await account.createEmailSession(user.email, user.password);

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-
+import { FaRegEye } from "react-icons/fa";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import {
@@ -7,7 +7,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -21,6 +20,7 @@ import {
   useSignInAccount,
 } from "@/lib/react-query/queriesAndMutations";
 import { useUserContext } from "@/context/AuthContext";
+import { useState } from "react";
 
 const SignUpForm = () => {
   const { toast } = useToast();
@@ -40,6 +40,8 @@ const SignUpForm = () => {
       password: "",
     },
   });
+  const [isShowPassword, setShowPassword] = useState(true);
+
   async function onSubmit(values: z.infer<typeof SignUpValidation>) {
     const newUser = await createUserAccount(values);
     if (!newUser) {
@@ -61,25 +63,24 @@ const SignUpForm = () => {
     const isLooggedIn = await checkAuthUser();
     if (isLooggedIn) {
       form.reset();
-      navigate("/home");
+      navigate("/");
     }
     return toast({
       title: "Sign up failed. Please try again",
-      description: "Double check the data you provide",
     });
   }
   return (
     <Form {...form}>
-      <div className=" sm:w-400 sm:px-0 md:px-5 flex-center flex-col">
+      <div className="relative z-20 sm:w-400 sm:px-0 md:px-5 flex-center flex-col">
         <div className="flex items-center flex-col gap-4 px-3">
           <img
             className="spin-around w-[80px] md:w-[130px]"
-            src={"/public/ContactUS.png"}
+            src={"/ContactUS.png"}
             alt="Logo"
           />
           <h1 className="text-2xl md:text-4xl font-bold">CONTACT-US</h1>
         </div>
-        <h2 className="text-2xl font-medium pt-2 sm:pt-4">
+        <h2 className="text-2xl font-medium py-2 sm:pt-4">
           Create a new account
         </h2>
         <form
@@ -137,23 +138,31 @@ const SignUpForm = () => {
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input
-                    placeholder="password"
-                    type="password"
-                    className="shad-input px-5 "
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="relative">
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      placeholder="password"
+                      type={isShowPassword ? "text" : "password"}
+                      className="shad-input px-5 "
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div
+              onClick={() => setShowPassword(!isShowPassword)}
+              className="absolute text-blue-700 bottom-4 right-6 transition hover:scale-110 duration-200 hover:text-purple-500 "
+            >
+              <FaRegEye />
+            </div>
+          </div>
           <Button className="shad-button_primary py-6 " type="submit">
             {isCreatingAccount ? (
               <div className="flex flex-row gap-3 items-center ">
@@ -164,12 +173,11 @@ const SignUpForm = () => {
             )}
           </Button>
           <p className="text-sm text-right text-blue-300">
-            <Link to={"/sign-in"}> Already have an Account?</Link>
+            <Link to={"/sign-in"}> Already have an account?</Link>
           </p>
         </form>
       </div>
     </Form>
   );
 };
-
 export default SignUpForm;

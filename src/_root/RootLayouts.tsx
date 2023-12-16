@@ -2,7 +2,7 @@ import React from 'react'
 
 const RootLayouts = () => {
   return (
-    <div>RootLayouts</div>
+    <div className=''>RootLayouts</div>
   )
 }
 

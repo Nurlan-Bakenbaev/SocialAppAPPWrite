@@ -1,8 +1,92 @@
+import { LoginValidation } from "@/lib/validation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Link } from "react-router-dom";
 const SignInForm = () => {
+  const form = useForm<z.infer<typeof LoginValidation>>({
+    resolver: zodResolver(LoginValidation),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+  function onSubmit(values: z.infer<typeof LoginValidation>) {
+    // Do something with the form values.
+    // ✅ This will be type-safe and validated.
+    console.log(values);
+  }
   return (
-    <div>
-      <Button>Click me</Button>
+    <div className="relative z-20 sm:w-400 sm:px-0 md:px-5 flex-center flex-col">
+      <div className="flex items-center flex-col gap-3 px-2">
+        <img
+          className="spin-around w-[80px] md:w-[130px]"
+          src={"/ContactUS.png"}
+          alt="Logo"
+        />
+        <h1 className="text-4xl md:text-5xl font-bold">CONTACT-US</h1>
+        <h2 className="text-xl font-medium  py-2">Login to Account</h2>
+      </div>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className=" gap-5 flex flex-col w-full "
+        >
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input
+                    className="shad-input px-5"
+                    type="email"
+                    placeholder="email"
+                    {...field}/>
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input
+                    className="shad-input px-5"
+                    type="password"
+                    placeholder="password"
+                    {...field}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <Button className="shad-button_primary py-5 w-full " type="submit">
+            Submit
+          </Button>
+          <p className="text-sm text-right text-blue-300">
+            <Link
+              className="hover:text-blue-600 duration-300 ease-in"
+              to={"/sign-up"}
+            >
+              Create an account ?
+            </Link>
+          </p>
+        </form>
+      </Form>
     </div>
   );
 };
