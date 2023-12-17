@@ -90,10 +90,9 @@ const SignInForm = () => {
                   />
                 </FormControl>
               </FormItem>
-            )}
-          />
+            )}/>
           <Button className="shad-button_primary
-           hover:text-purple-200 py-6 " type="submit">
+           py-6 " type="submit">
             {isLoading ? (
               <div className="flex flex-row gap-3 items-center ">
                 <Loader /> Loading...
@@ -105,8 +104,7 @@ const SignInForm = () => {
           <p className="text-sm text-right text-blue-300">
             <Link
               className="hover:text-blue-600 duration-200 ease-in"
-              to={"/sign-up"}
-            >
+              to={"/sign-up"}>
               Create an account ?
             </Link>
           </p>
