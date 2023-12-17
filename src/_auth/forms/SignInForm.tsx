@@ -12,12 +12,10 @@ import { useSignInAccount } from "@/lib/react-query/queriesAndMutations";
 import { useToast } from "@/components/ui/use-toast";
 import { Loader } from "lucide-react";
 const SignInForm = () => {
-  const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
-  const { mutateAsync: signInAccount, isPending: isSigningIn } =
-    useSignInAccount();
+  const { checkAuthUser, isLoading } = useUserContext();
+  const { mutateAsync: signInAccount } = useSignInAccount();
   const navigate = useNavigate();
   const { toast } = useToast();
-
   const form = useForm<z.infer<typeof LoginValidation>>({
     resolver: zodResolver(LoginValidation),
     defaultValues: {
@@ -33,7 +31,7 @@ const SignInForm = () => {
     if (!session) {
       return toast({
         title: "Sign in failed. Please try again",
-        description: "Double check the data you provide",
+        description: "Double check the data you provided",
       });
     }
     const isLooggedIn = await checkAuthUser();
@@ -42,7 +40,7 @@ const SignInForm = () => {
       navigate("/");
     }
     return toast({
-      title: "Sign up failed. Please try again",
+      title: "Sign in successful",
     });
   }
 
@@ -60,7 +58,7 @@ const SignInForm = () => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className=" gap-5 flex flex-col w-full "
+          className=" gap-5 flex flex-col w-full"
         >
           <FormField
             control={form.control}
@@ -94,13 +92,14 @@ const SignInForm = () => {
               </FormItem>
             )}
           />
-          <Button className="shad-button_primary py-6 " type="submit">
-            {isUserLoading ? (
+          <Button className="shad-button_primary
+           hover:text-purple-200 py-6 " type="submit">
+            {isLoading ? (
               <div className="flex flex-row gap-3 items-center ">
                 <Loader /> Loading...
               </div>
             ) : (
-              "Sign up"
+              "Sign in"
             )}
           </Button>
           <p className="text-sm text-right text-blue-300">

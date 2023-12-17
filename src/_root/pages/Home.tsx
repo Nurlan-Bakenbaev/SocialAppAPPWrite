@@ -2,7 +2,7 @@ import React from 'react'
 
 const Home = () => {
   return (
-    <div>HELLLO FROM HOME PAGE</div>
+    <div> HOME PAGE</div>
   )
 }
 
