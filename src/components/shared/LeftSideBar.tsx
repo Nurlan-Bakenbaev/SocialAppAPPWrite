@@ -26,7 +26,7 @@ const LeftSideBar = () => {
             className="spin-around"
             src="public/ContactUS.png"
             alt="logo"
-            width={40}
+            width={45}
           />
           <h5 className="uppercase text-xl">ContactUS</h5>
         </Link>
