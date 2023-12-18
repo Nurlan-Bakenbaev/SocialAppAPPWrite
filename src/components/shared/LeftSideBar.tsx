@@ -75,7 +75,7 @@ const LeftSideBar = () => {
               <p className="text-light-3">{user.email}</p>
             </div>
           </div>
-          <div className="flex items-center w-full justify-end py-3 group hover:text-red ">
+          <div className="flex border items-center  mt-2 px-3 py-1 rounded-md group hover:text-red ">
             <label htmlFor="logOut" className="text-md">
               Log Out
             </label>
@@ -84,8 +84,7 @@ const LeftSideBar = () => {
               onClick={() => signOut()}
               variant="ghost"
               className=" transition 
-            hover:scale-105 ease-in text-[25px]"
-            >
+            hover:scale-105 ease-in text-[25px]">
               <CiLogout />
             </Button>
           </div>
