@@ -4,7 +4,7 @@ import { CiLogout } from "react-icons/ci";
 import { useSignOutAccount } from "@/lib/react-query/queriesAndMutations";
 import { useEffect } from "react";
 import { useUserContext } from "@/context/AuthContext";
-import { RxAvatar } from "react-icons/rx";
+
 const Topbar = () => {
   const { mutate: signOut, isSuccess } = useSignOutAccount();
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ const Topbar = () => {
             alt="logo"
             width={45}
           />
-          <h3 className="uppercase text-sm md:text-xl">ContactUS</h3>
+          <h5 className="uppercase text-sm md:text-xl">ContactUS</h5>
         </Link>
         <div className="flex gap-2">
           <Button
