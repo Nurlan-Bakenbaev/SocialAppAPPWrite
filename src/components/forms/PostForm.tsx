@@ -12,14 +12,16 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "../ui/textarea";
+import FileUploader from "../shared/FileUploader";
 const formSchema = z.object({
-  username: z.string().min(2).max(50),
+  caption: z.string().min(2).max(50),
 });
 const PostForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      caption: "",
     },
   });
 
@@ -33,21 +35,66 @@ const PostForm = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-9 w.full max-w-5xl"
+        className="flex flex-col gap-9 w-full max-w-5xl"
       >
         <FormField
           control={form.control}
-          name="username"
+          name="caption"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel className="shad-form-label">Caption</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Textarea
+                  className="shad-textarea custom-scrollbar"
+                  {...field}
+                />
               </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
-              <FormMessage />
+              <FormMessage className="shad-form_message" />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="file"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="shad-form-label">Add Photos</FormLabel>
+              <FormControl>
+                <FileUploader />
+              </FormControl>
+              <FormMessage className="shad-form_message" />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="location"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="shad-form-label">Add Location</FormLabel>
+              <FormControl>
+                <Input type="text" className="shad-input" />
+              </FormControl>
+              <FormMessage className="shad-form_message" />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="tags"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="shad-form-label">
+                Add Tags (separated by come ",")
+              </FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="Art,Expression,Learn"
+                  type="text"
+                  className="shad-input"
+                />
+              </FormControl>
+              <FormMessage className="shad-form_message" />
             </FormItem>
           )}
         />
