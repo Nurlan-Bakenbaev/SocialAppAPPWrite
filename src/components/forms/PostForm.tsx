@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -14,22 +13,40 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "../ui/textarea";
 import FileUploader from "../shared/FileUploader";
-const formSchema = z.object({
-  caption: z.string().min(2).max(50),
-});
-const PostForm = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+import { PostValidation } from "@/lib/validation";
+import { Models } from "appwrite";
+import { useUserContext } from "@/context/AuthContext";
+import { useToast } from "../ui/use-toast";
+import { useNavigate } from "react-router-dom";
+type PostFormProps = {
+  post?: Models.Document;
+};
+const PostForm = ({ post }: PostFormProps) => {
+  const { mutateAsync: createPost, isPending: isLoadingCreate } =
+    useCreatePost();
+  const { user } = useUserContext();
+  const { toast } = useToast();
+  const navigate = useNavigate();
+  const form = useForm<z.infer<typeof PostValidation>>({
+    resolver: zodResolver(PostValidation),
     defaultValues: {
-      caption: "",
+      caption: post ? post?.caption : "",
+      file: [],
+      location: post ? post.location : "",
+      tags: post ? post.tags.join(",") : "",
     },
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof PostValidation>) {
+    const newPost = await createPost({
+      ...values,
+      userId: user.id,
+    });
+    if (!newPost) {
+      toast({ title: "Please try again" });
+    }
+    navigate("/");
   }
   return (
     <Form {...form}>
@@ -60,7 +77,11 @@ const PostForm = () => {
             <FormItem>
               <FormLabel className="shad-form-label">Add Photos</FormLabel>
               <FormControl>
-                <FileUploader />
+                <FileUploader
+                  fieldChange={field.onChange}
+                  mediaUrl={post?.imageUrl}
+                  {...field}
+                />
               </FormControl>
               <FormMessage className="shad-form_message" />
             </FormItem>
@@ -73,7 +94,7 @@ const PostForm = () => {
             <FormItem>
               <FormLabel className="shad-form-label">Add Location</FormLabel>
               <FormControl>
-                <Input type="text" className="shad-input" />
+                <Input type="text" className="shad-input" {...field} />
               </FormControl>
               <FormMessage className="shad-form_message" />
             </FormItem>
@@ -85,20 +106,32 @@ const PostForm = () => {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="shad-form-label">
-                Add Tags (separated by come ",")
+                Add Tags (separated by comma ",")
               </FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Art,Expression,Learn"
+                  placeholder="party,places,people"
                   type="text"
                   className="shad-input"
+                  {...field}
                 />
               </FormControl>
               <FormMessage className="shad-form_message" />
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <div className="flex gap-4 items-center justify-end">
+          <Button type="button" className="shad-button_dark_4">
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            className="shad-button_primary
+           whitespace-nowrap"
+          >
+            Submit
+          </Button>
+        </div>
       </form>
     </Form>
   );
