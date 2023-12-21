@@ -280,7 +280,6 @@
 .spin-around {
   animation: spin 15s linear infinite;
 }
-
 @keyframes spin {
   from {
     transform: rotate(0deg);
