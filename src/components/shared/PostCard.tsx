@@ -2,6 +2,7 @@ import { useUserContext } from "@/context/AuthContext";
 import { timeAgo } from "@/lib/utils";
 import { Models } from "appwrite";
 import { Link } from "react-router-dom";
+import PostStats from "./PostStats";
 
 type PostCardProps = {
   post: Models.Document;
@@ -58,6 +59,7 @@ const PostCard = ({ post }: PostCardProps) => {
           alt="postImage"
         />
       </Link>
+      <PostStats post={post} userId={user.id} />
     </div>
   );
 };
