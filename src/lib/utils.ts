@@ -5,6 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export const convertFileToUrl = (file: File) => URL.createObjectURL(file);
 //TIME CONVERT
 export function timeAgo(timestamp: string): string {
   const seconds: number = Math.floor(
@@ -22,3 +23,6 @@ export function timeAgo(timestamp: string): string {
 
   return "just now";
 }
+export const checkIsLiked = (likeList: string[], userId: string) => {
+  return likeList.includes(userId);
+};

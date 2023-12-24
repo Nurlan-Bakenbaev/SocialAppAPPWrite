@@ -65,6 +65,7 @@ export const useGetRecentPosts = () => {
   });
 };
 
+//UPDATE POSTS
 export const useLikePost = () => {
   const queryClient = useQueryClient();
   return useMutation({
@@ -110,20 +111,28 @@ export const useSavePost = () => {
     },
   });
 };
-export const useDeleteSavePost = () => {
+
+export const useDeleteSavedPost = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (savedRecordId) => deleteSavedPost()
-    onSuccess: (data) => {
+    mutationFn: (savedRecordId: string) => deleteSavedPost(savedRecordId),
+    onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.GET_RECENT_POSTS, data?.$id],
+        queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
       });
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.GET_POSTS, data?.$id],
+        queryKey: [QUERY_KEYS.GET_POSTS],
       });
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.GET_CURRENT_USER, data?.$id],
+        queryKey: [QUERY_KEYS.GET_CURRENT_USER],
       });
     },
+  });
+};
+
+export const useGetCurrentUser = () => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_CURRENT_USER],
+    queryFn: getCurrentUser,
   });
 };

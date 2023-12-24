@@ -200,8 +200,10 @@ export async function deleteSavedPost(savedRecordId: string) {
       appwriteConfig.savesCollectionId,
       savedRecordId
     );
+
     if (!statusCode) throw Error;
-    return { status: "ok" };
+
+    return { status: "Ok" };
   } catch (error) {
     console.log(error);
   }
