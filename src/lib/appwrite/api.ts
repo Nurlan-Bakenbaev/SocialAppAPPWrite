@@ -1,6 +1,8 @@
 import { INewPost, INewUser } from "@/types";
 import { ID, Query } from "appwrite";
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { QUERY_KEYS } from "../react-query/querrykeys";
 
 //CREATE ACCOUNT
 export async function createUserAccount(user: INewUser) {
@@ -176,7 +178,31 @@ export async function likePosts(postId: string, likesArray: string[]) {
     console.log(error);
   }
 }
-export async function savePosts(postId: string, userId: string) {
+export const useSavePost = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ userId, postId }: { userId: string; postId: string }) =>
+      savePost(userId, postId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_POSTS],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_CURRENT_USER],
+      });
+    },
+    onError: (error: Error) => {
+      console.error("useSavePost mutation error:", error);
+      // Handle the error as needed
+    },
+  });
+};
+
+export async function savePost(userId: string, postId: string) {
   try {
     const updatedPost = await databases.createDocument(
       appwriteConfig.databaseId,
@@ -187,12 +213,15 @@ export async function savePosts(postId: string, userId: string) {
         post: postId,
       }
     );
+
     if (!updatedPost) throw Error;
+
     return updatedPost;
   } catch (error) {
     console.log(error);
   }
 }
+
 export async function deleteSavedPost(savedRecordId: string) {
   try {
     const statusCode = await databases.deleteDocument(

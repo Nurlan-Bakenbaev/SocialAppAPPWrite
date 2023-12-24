@@ -4,7 +4,6 @@ import { useLocation } from "react-router-dom";
 
 import { checkIsLiked } from "@/lib/utils";
 import {
-
   useDeleteSavedPost,
   useGetCurrentUser,
   useLikePost,
@@ -54,18 +53,22 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
     likePost({ postId: post.$id, likesArray });
   };
 
-  const handleSavePost = (
+  const handleSavePost = async (
     e: React.MouseEvent<HTMLImageElement, MouseEvent>
   ) => {
     e.stopPropagation();
 
-    if (savedPostRecord) {
-      setIsSaved(false);
-      return deleteSavePost(savedPostRecord.$id);
+    try {
+      if (savedPostRecord) {
+        setIsSaved(false);
+        await deleteSavePost(savedPostRecord.$id);
+      } else {
+        await savePost({ userId: userId, postId: post.$id });
+        setIsSaved(true);
+      }
+    } catch (error) {
+      console.error(error);
     }
-
-    savePost({ userId: userId, postId: post.$id });
-    setIsSaved(true);
   };
 
   const containerStyles = location.pathname.startsWith("/profile")
