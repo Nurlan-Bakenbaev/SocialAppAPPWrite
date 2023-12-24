@@ -1,8 +1,6 @@
 import { useUserContext } from "@/context/AuthContext";
 import { timeAgo } from "@/lib/utils";
 import { Models } from "appwrite";
-import { link } from "fs";
-import React from "react";
 import { Link } from "react-router-dom";
 
 type PostCardProps = {
@@ -50,11 +48,15 @@ const PostCard = ({ post }: PostCardProps) => {
           <ul className="flex gap-1 mt-1">
             {post.tags.map((tag: string) => (
               <li className=" text-light-3" key={tag}>
-                {tag},
+                #{tag}
               </li>
             ))}
           </ul>
         </div>
+        <img
+          src={post.imageUrl || "/public/assets/icons/profile-placeholder.svg"}
+          alt="postImage"
+        />
       </Link>
     </div>
   );

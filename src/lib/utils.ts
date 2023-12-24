@@ -22,8 +22,3 @@ export function timeAgo(timestamp: string): string {
 
   return "just now";
 }
-
-const timestamp: string = "2023-12-21T00:57:26.866+00:00";
-const convertedTime: string = timeAgo(timestamp);
-
-console.log(convertedTime);
