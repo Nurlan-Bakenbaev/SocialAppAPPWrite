@@ -1,4 +1,7 @@
+import { useUserContext } from "@/context/AuthContext";
+import { timeAgo } from "@/lib/utils";
 import { Models } from "appwrite";
+import { link } from "fs";
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -6,6 +9,8 @@ type PostCardProps = {
   post: Models.Document;
 };
 const PostCard = ({ post }: PostCardProps) => {
+  const { user } = useUserContext();
+  if (!post.creator) return;
   return (
     <div className="post-card">
       <div className="flex-between">
@@ -21,17 +26,36 @@ const PostCard = ({ post }: PostCardProps) => {
             <p className="base-medium lg:body-bold text-light-1">
               {post.creator.name}
             </p>
-            <div className=" flex-center gap-2 text-light-3">
-              <p className="subtle-semibold lg:small-regular">
-                {post.$createdAt}
-              </p>
+            <div className=" flex  gap-3  text-light-3">
               <p className="subtle-semibold lg:small-regular">
                 {post.location}
+              </p>
+              <p className="subtle-semibold lg:small-regular">
+                {timeAgo(post.$createdAt)}
               </p>
             </div>
           </div>
         </div>
+
+        <Link
+          className={`${user.id !== post.creator.$id && "marker:hidden"}`}
+          to={`/update-post/${post.$id}`}
+        >
+          <img width={20} height={20} src="/assets/icons/edit.svg" alt="edit" />
+        </Link>
       </div>
+      <Link to={`/posts/${post.$id}`}>
+        <div className="small-medium lg:base-medium">
+          <p>{post.caption}</p>
+          <ul className="flex gap-1 mt-1">
+            {post.tags.map((tag: string) => (
+              <li className=" text-light-3" key={tag}>
+                {tag},
+              </li>
+            ))}
+          </ul>
+        </div>
+      </Link>
     </div>
   );
 };
