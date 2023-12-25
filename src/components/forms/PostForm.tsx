@@ -22,7 +22,6 @@ import {
   useCreatePost,
   useUpdatePost,
 } from "@/lib/react-query/queriesAndMutations";
-import Loader from "../shared/Loader";
 type PostFormProps = {
   post?: Models.Document;
   action: "Create" | "Update";

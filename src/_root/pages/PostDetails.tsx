@@ -72,6 +72,18 @@ const PostDetails = () => {
                 </Button>
               </div>
             </div>
+
+            <hr className=" border w-full border-dark-4" />
+            <div className="small-medium lg:base-medium">
+              <p>{post.caption}</p>
+              <ul className="flex gap-1 mt-1">
+                {post.tags.map((tag: string) => (
+                  <li className=" text-light-3" key={tag}>
+                    #{tag}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       )}

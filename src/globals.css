@@ -9,7 +9,7 @@
     @apply box-border list-none p-0 m-0 scroll-smooth;
   }
   body {
-    @apply bg-slate-800 text-white min-h-screen font-inter;
+    @apply bg-slate-900 text-white min-h-screen font-inter;
   }
 }
 

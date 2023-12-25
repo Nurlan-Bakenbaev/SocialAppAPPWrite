@@ -43,11 +43,14 @@ const PostCard = ({ post }: PostCardProps) => {
           <img width={20} height={20} src="/assets/icons/edit.svg" alt="edit" />
         </Link>
       </div>
-      <Link to={`/posts/${post.$id}`}>
-        <div className="small-medium lg:base-medium">
-          <p>{post.caption}</p>
+      <Link to={`/posts/${post?.$id}`}>
+        <div
+          className="flex flex-col flex-1 w-full 
+        small-medium lg:base-regular"
+        >
+          <p>{post?.caption}</p>
           <ul className="flex gap-1 mt-1">
-            {post.tags.map((tag: string) => (
+            {post?.tags.map((tag: string) => (
               <li className=" text-light-3" key={tag}>
                 #{tag}
               </li>
