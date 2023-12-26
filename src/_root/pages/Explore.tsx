@@ -4,7 +4,6 @@ import SearchResults from "@/components/shared/SearchResults";
 import { Input } from "@/components/ui/input";
 import useDebounce from "@/hooks/useDebounce";
 import { useGetPosts, useSearch } from "@/lib/react-query/queriesAndMutations";
-
 import React, { useState } from "react";
 
 const Explore = () => {
@@ -21,9 +20,10 @@ const Explore = () => {
       </div>
     );
   }
+  console.log(posts);
   const shouldShowPosts =
     !shouldShowSearchResults &&
-    posts?.pages.every((item) => item.documents?.length === 0);
+    posts?.pages.every((item) => item?.documents?.length === 0);
 
   return (
     <div className="explore-container">
