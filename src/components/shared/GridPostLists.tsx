@@ -17,19 +17,21 @@ const GridPostLists = ({
   const { user } = useUserContext();
 
   return (
-    <ul className="grid-container ">
+    <ul className="grid-container">
       {posts.map((post) => (
         <li className=" relative" key={post.$id}>
-          <Link
-            className="grid-post_link "
-            to={`/posts/${post.$id}`}
-          >
+          <div className="grid-post_link ">
             <img
               className="h-full w-full object-cover"
               src={post.imageUrl}
               alt="post-image"
             />
-          </Link>
+          </div>
+          <Link
+            to={`/posts/${post.$id}`}
+            className="absolute top-0 bottom-0 w-full h-full rounded-[24px] transition duration-200 ease-in-out hover:bg-[#b34db3] opacity-40  "
+          />
+
           <div className="grid-post_user">
             {showUser && post.creator && (
               <div className="flex items-center justify-start gap-2  flex-1">

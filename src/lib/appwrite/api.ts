@@ -352,3 +352,29 @@ export async function getAllUsers() {
     console.log(error);
   }
 }
+
+//GET CURRENT USER POSTS
+export async function getCurrentUserPosts() {
+  try {
+    // Get current user information
+    const currentUser = await getCurrentUser();
+
+    if (!currentUser || !currentUser.$id) {
+      throw Error("Current user not found");
+    }
+
+    // Query posts for the current user
+    const userPosts = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.postCollectionId,
+      [Query.equal("creator", currentUser.$id), Query.orderDesc("$createdAt")]
+    );
+
+    if (!userPosts) {
+      throw Error("User posts not found");
+    }
+    return userPosts;
+  } catch (error) {
+    console.log(error);
+  }
+}
