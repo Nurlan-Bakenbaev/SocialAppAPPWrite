@@ -20,7 +20,7 @@ const Topbar = () => {
         <Link to={"/"} className="flex gap-3 items-center">
           <img
             className="spin-around"
-            src="public/ContactUS.png"
+            src="/ContactUS.png"
             alt="logo"
             width={45}
           />

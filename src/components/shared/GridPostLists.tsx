@@ -29,7 +29,7 @@ const GridPostLists = ({
           </div>
           <Link
             to={`/posts/${post.$id}`}
-            className="absolute top-0 bottom-0 w-full h-full rounded-[24px] transition duration-200 ease-in-out hover:bg-[#b34db3] opacity-40  "
+            className="absolute top-0 bottom-0 w-full h-full rounded-[24px] transition duration-200 ease-in-out hover:bg-black opacity-40  "
           />
 
           <div className="grid-post_user">

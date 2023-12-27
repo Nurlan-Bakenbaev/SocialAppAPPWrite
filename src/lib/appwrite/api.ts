@@ -378,3 +378,21 @@ export async function getCurrentUserPosts() {
     console.log(error);
   }
 }
+//GET USER PROFILE BY ID
+export async function getUserProfileById(userId: string) {
+  try {
+    const user = await databases.getDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.userCollectionId,
+      userId
+    );
+
+    if (!user) {
+      throw Error("User not found");
+    }
+
+    return user;
+  } catch (error) {
+    console.log(error);
+  }
+}
