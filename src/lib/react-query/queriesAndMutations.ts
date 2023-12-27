@@ -186,3 +186,4 @@ export const useSearch = (searchTerm: string) => {
     enabled: !!searchTerm,
   });
 };
+

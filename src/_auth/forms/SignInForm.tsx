@@ -9,7 +9,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useUserContext } from "@/context/AuthContext";
 import { useSignInAccount } from "@/lib/react-query/queriesAndMutations";
 import { useToast } from "@/components/ui/use-toast";
-import { Loader } from "lucide-react";
+import Loader from "@/components/shared/Loader";
+
 const SignInForm = () => {
   const { checkAuthUser, isLoading } = useUserContext();
   const { mutateAsync: signInAccount } = useSignInAccount();
@@ -89,21 +90,20 @@ const SignInForm = () => {
                   />
                 </FormControl>
               </FormItem>
-            )}/>
-          <Button className="shad-button_primary
-           py-6 " type="submit">
-            {isLoading ? (
-              <div className="flex flex-row gap-3 items-center ">
-                <Loader /> Loading...
-              </div>
-            ) : (
-              "Sign in"
             )}
+          />
+          <Button
+            className="shad-button_primary
+           py-6 "
+            type="submit"
+          >
+            {isLoading ? <Loader /> : "Sign in"}
           </Button>
           <p className="text-sm text-right text-blue-300">
             <Link
               className="hover:text-blue-600 duration-200 ease-in"
-              to={"/sign-up"}>
+              to={"/sign-up"}
+            >
               Create an account ?
             </Link>
           </p>
