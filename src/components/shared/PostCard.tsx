@@ -14,11 +14,14 @@ const PostCard = ({ post }: PostCardProps) => {
     <div className="post-card">
       <div className="flex-between">
         <div className="flex  items-center gap-3">
-          <Link to={`/profile/${post.creator.$id}`}>
+          <Link
+            className="w-[40px] h-[40px]"
+            to={`/profile/${post.creator.$id}`}
+          >
             <img
               src={post?.creator?.imageUrl}
               alt="User-Post_image"
-              className="rounded-full w-12 lg:h-12"
+              className="rounded-full w-full h-full object-cover"
             />
           </Link>
           <div className="flex flex-col">

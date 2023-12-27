@@ -8,7 +8,6 @@ import React, { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 const Explore = () => {
   const { ref, inView, entry } = useInView({
-  
     threshold: 0,
   });
   const [searchValue, setSearchValue] = useState("");
@@ -53,7 +52,7 @@ const Explore = () => {
         </div>
       </div>
       <div className="flex-between w-full max-w-5xl mt-16 mb-7">
-        <h3 className="body-bold md:h3-bold ">Popular</h3>
+        <h3 className="body-bold md:h3-bold ">Recent Posts</h3>
 
         {/* MAKE FILTER  */}
         {/* <div

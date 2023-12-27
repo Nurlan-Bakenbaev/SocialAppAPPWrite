@@ -32,21 +32,22 @@ const AllUsers = () => {
     <div className=" w-full mt-12 px-8">
       <h2 className="h4-bold md:h2-bold w-full pb-5"> All Users</h2>
 
-      <div className=" flex flex-col justify-center md:flex-row gap-3  ">
+      <div className=" flex flex-col justify-center items-center md:flex-row gap-3  ">
         {users?.map((user) => (
-          <div key={user.$id}>
+          <div title="Click to see posts" key={user.$id}>
             <Link
               to={`/profile/${user.$id}`}
               className="bg-slate-700 max-w-sm transition hover:scale-110 duration-300 ease-in-out px-2 py-3 items-center rounded-md flex flex-1 gap-2"
             >
               <img
-                width={30}
-                height={3}
-                className="rounded-full"
+                className="w-12 h-12  object-cover rounded-full"
                 src={user.imageUrl}
                 alt={user.name}
               />
-              <p>{user.name}</p>
+              <div className="flex flex-col">
+                <p>{user.name}</p>
+                <span className="text-xs text-slate-300">{`posts: ${user.posts.length}`}</span>
+              </div>
             </Link>
           </div>
         ))}
