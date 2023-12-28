@@ -67,7 +67,7 @@ const LeftSideBar = () => {
                   "https://images.pexels.com/photos/1573324/pexels-photo-1573324.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
                 }
                 alt="user-logo"
-                className="h-8 w-8 rounded-full"
+                className="h-8 w-8  object-cover rounded-full"
               />
             </Link>
             <div>
@@ -84,7 +84,8 @@ const LeftSideBar = () => {
               onClick={() => signOut()}
               variant="ghost"
               className=" transition 
-            hover:scale-105 ease-in text-[25px]">
+            hover:scale-105 ease-in text-[25px]"
+            >
               <CiLogout />
             </Button>
           </div>

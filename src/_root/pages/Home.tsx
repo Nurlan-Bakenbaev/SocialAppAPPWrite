@@ -20,7 +20,9 @@ const Home = () => {
             Home Feed
           </h2>
           {isLoading && !posts ? (
-            <Loader />
+            <div className="flex justify-center w-full h-full">
+              <Loader />
+            </div>
           ) : (
             <ul className="flex flex-col flex-1 gap-9 w-full">
               {posts?.documents.map((post: Models.Document) => (

@@ -15,7 +15,7 @@ const PostDetails = () => {
   return (
     <div className="post_details-container">
       {isPending ? (
-        <div className="">
+        <div className="flex justify-center w-full h-full">
           <Loader />
         </div>
       ) : (
@@ -30,7 +30,7 @@ const PostDetails = () => {
                 <img
                   src={post?.creator?.imageUrl}
                   alt="User-Post_image"
-                  className="rounded-full w-8 h-8 lg:w-12 lg:h-12"
+                  className="rounded-full w-8 h-8 object-cover lg:w-12 lg:h-12"
                 />
                 <div className="flex flex-col">
                   <p className="base-medium lg:body-bold text-light-1">

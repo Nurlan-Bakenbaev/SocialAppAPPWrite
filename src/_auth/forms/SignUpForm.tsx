@@ -43,31 +43,35 @@ const SignUpForm = () => {
   const [isShowPassword, setShowPassword] = useState(true);
 
   async function onSubmit(values: z.infer<typeof SignUpValidation>) {
-    const newUser = await createUserAccount(values);
-    if (!newUser) {
+    try {
+      const newUser = await createUserAccount(values);
+      if (!newUser) {
+        return toast({
+          title: "Sign up failed. Please try again",
+          description: "Double check the data you provide",
+        });
+      }
+      const session = await signInAccount({
+        email: values.email,
+        password: values.password,
+      });
+      if (!session) {
+        return toast({
+          title: "Sign up failed. Please try again",
+          description: "Double check the data you provide",
+        });
+      }
+      const isLoggedIn = await checkAuthUser();
+      if (isLoggedIn) {
+        form.reset();
+        navigate("/");
+      }
       return toast({
         title: "Sign up failed. Please try again",
-        description: "Double check the data you provide",
       });
+    } catch (error) {
+      console.log(error);
     }
-    const session = await signInAccount({
-      email: values.email,
-      password: values.password,
-    });
-    if (!session) {
-      return toast({
-        title: "Sign up failed. Please try again",
-        description: "Double check the data you provide",
-      });
-    }
-    const isLooggedIn = await checkAuthUser();
-    if (isLooggedIn) {
-      form.reset();
-      navigate("/");
-    }
-    return toast({
-      title: "Sign up failed. Please try again",
-    });
   }
   return (
     <Form {...form}>
@@ -166,7 +170,7 @@ const SignUpForm = () => {
           <Button className="shad-button_primary py-6 " type="submit">
             {isCreatingAccount ? (
               <div className="flex flex-row gap-3 items-center ">
-                <Loader /> Loading...
+                <Loader />
               </div>
             ) : (
               "Sign up"
